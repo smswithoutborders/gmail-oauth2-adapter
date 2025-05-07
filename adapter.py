@@ -10,8 +10,8 @@ import base64
 from typing import Dict, Any
 from authlib.integrations.requests_client import OAuth2Session
 from authlib.integrations.base_client import OAuthError
-from .adapter_interfaces import OAuthAdapterInterface
-from .logutils import get_logger
+from protocol_interfaces import OAuth2ProtocolInterface
+from logutils import get_logger
 
 logger = get_logger(__name__)
 
@@ -89,7 +89,7 @@ def generate_code_verifier(length=128) -> str:
     return "".join(c for c in code_verifier if c.isalnum())
 
 
-class GmailOAuth2Adapter(OAuthAdapterInterface):
+class GmailOAuth2Adapter(OAuth2ProtocolInterface):
     """Example adapter to demonstrate fetching configuration."""
 
     def __init__(self):
