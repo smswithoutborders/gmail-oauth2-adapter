@@ -93,7 +93,7 @@ def generate_code_verifier(length=128) -> str:
 
 
 class GmailOAuth2Adapter(OAuth2ProtocolInterface):
-    """Example adapter to demonstrate fetching configuration."""
+    """Adapter for integrating Gmail's OAuth2 protocol."""
 
     def __init__(self):
         self.default_config = DEFAULT_CONFIG
@@ -116,6 +116,7 @@ class GmailOAuth2Adapter(OAuth2ProtocolInterface):
         """Generate the authorization URL for OAuth2 authentication."""
         code_verifier = kwargs.get("code_verifier")
         autogenerate_code_verifier = kwargs.pop("autogenerate_code_verifier", False)
+        redirect_url = kwargs.pop("redirect_url", None)
 
         if autogenerate_code_verifier and not code_verifier:
             code_verifier = self.generate_code_verifier(48)
@@ -125,6 +126,9 @@ class GmailOAuth2Adapter(OAuth2ProtocolInterface):
         if code_verifier:
             kwargs["code_verifier"] = code_verifier
             self.session.code_challenge_method = "S256"
+
+        if redirect_url:
+            self.session.redirect_uri = redirect_url
 
         params = {**self.default_config["params"], **kwargs}
 
