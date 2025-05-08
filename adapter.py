@@ -43,6 +43,9 @@ def load_credentials(configs):
     if not creds_file_path:
         raise ValueError("Credentials file path not found in the configuration.")
 
+    if creds_file_path.startswith("./"):
+        creds_file_path = os.path.join(os.path.dirname(__file__), creds_file_path)
+
     with open(creds_file_path, "r", encoding="utf-8") as file:
         creds = json.load(file)
 
