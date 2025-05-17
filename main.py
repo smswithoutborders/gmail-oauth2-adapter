@@ -15,7 +15,6 @@ def main():
     This script initializes and starts the AdapterIPCService
     for inter-process communication.
     """
-    # Instantiate the adapter class here (e.g., GmailOAuth2Adapter)
     adapter = GmailOAuth2Adapter()
     service = AdapterIPCService(adapter)
     service.start()

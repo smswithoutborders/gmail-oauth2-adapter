@@ -1,1 +1,2 @@
-
+Authlib==1.5.2
+requests==2.32.3
