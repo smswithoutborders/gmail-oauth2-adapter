@@ -269,7 +269,7 @@ class GmailOAuth2Adapter(OAuth2ProtocolInterface):
             "redirect_uri": self.session.redirect_uri,
         }
 
-    def revoke_token(self, token: Dict[str, str], **kwargs) -> bool:
+    def revoke_token(self, token: Dict[str, str], **_) -> bool:
         """Revoke the given OAuth2 access token."""
         if not self._is_token_format_correct(token):
             logger.info("Token format is incorrect. Converting token format...")
@@ -295,16 +295,14 @@ class GmailOAuth2Adapter(OAuth2ProtocolInterface):
             logger.error("Failed to revoke tokens: %s", e)
             raise
 
-    def send_message(
-        self, token: Dict[str, str], message: str, **kwargs
-    ) -> Dict[str, Any]:
+    def send_message(self, token: Dict[str, str], **kwargs) -> Dict[str, Any]:
         """Send a message to the specified recipient."""
         sender_id = kwargs.pop("sender_id", "me")
         raw_message = self._create_email_message(
             from_email=kwargs["from_email"],
             to_email=kwargs["to_email"],
             subject=kwargs["subject"],
-            body=message,
+            body=kwargs["message"],
             cc_email=kwargs.get("cc_email"),
             bcc_email=kwargs.get("bcc_email"),
         )
