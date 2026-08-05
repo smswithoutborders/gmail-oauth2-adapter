@@ -67,3 +67,31 @@ sudo apt install build-essential python3-dev
 ```
 
 > Only the first item in the `redirect_uris` is used for the OAuth2 flow.
+
+## Testing
+
+For exercising the flow without hand-crafting IPC JSON, use the interactive REPL in `tests/client.py`. The token is persisted to `tests/session.json`:
+
+```bash
+python -m tests.client
+```
+
+| Command        | Arguments                                                             | Description                                                                    |
+| -------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `auth_url`     | -                                                                       | Generate the OAuth2 authorization URL                                            |
+| `exchange`     | `<code>`                                                                | Exchange an authorization code for a token, using the last `auth_url` session    |
+| `send_message` | `<from_email> <to_email> <subject> <message> [attachment_path ...]`    | Send an email using the stored token                                             |
+| `revoke`       | -                                                                       | Revoke the stored token                                                          |
+| `help`         | `[command]`                                                             | Show available commands, or detail for one command                              |
+| `quit`         | -                                                                       | Exit the client                                                                  |
+
+> `send_message` quotes any argument containing spaces (e.g. `"Hello there"` for the subject or message). Any trailing arguments are treated as file paths and read from disk to attach to the email, e.g. `send_message me@x.com you@y.com "Subject" "Body text" ./invoice.pdf`.
+
+If you need to manually capture the authorization `code` Google returns during testing, run the local callback catcher:
+
+```bash
+pip install -r test-requirements.txt
+flask --app app run
+```
+
+Point your `credentials.json` `redirect_uris` at `http://localhost:5000/oauth/callback` to see the callback query parameters rendered in the browser.
