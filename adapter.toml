@@ -1,0 +1,10 @@
+entry = "gmail_oauth2_adapter:GmailAdapter"
+name = "gmail"
+display_name = "Gmail"
+protocol = "oauth2"
+category = "email"
+offline_first = false
+
+[icons]
+svg = "https://raw.githubusercontent.com/smswithoutborders/gmail-oauth2-adapter/main/icons/gmail.svg"
+png = "https://raw.githubusercontent.com/smswithoutborders/gmail-oauth2-adapter/main/icons/gmail.png"
