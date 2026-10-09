@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  adapter:
+    uses: smswithoutborders/RelaySMS-Publisher/.github/workflows/adapter.yml@sdk-v1.0.0
