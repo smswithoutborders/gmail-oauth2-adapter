@@ -174,3 +174,4 @@ cython_debug/
 .pypirc
 credentials.json
 session.json
+.relaysms/
