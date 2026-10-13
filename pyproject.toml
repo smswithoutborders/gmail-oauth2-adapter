@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gmail-oauth2-adapter"
-version = "1.0.0"
+version = "1.1.0"
 description = "Gmail adapter for the RelaySMS Publisher"
 readme = "README.md"
 license = "GPL-3.0-only"
