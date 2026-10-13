@@ -13,4 +13,4 @@ permissions:
 
 jobs:
   adapter:
-    uses: smswithoutborders/RelaySMS-Publisher/.github/workflows/adapter.yml@sdk-v1.0.0
+    uses: smswithoutborders/RelaySMS-Publisher/.github/workflows/adapter.yml@sdk-v1.1.0

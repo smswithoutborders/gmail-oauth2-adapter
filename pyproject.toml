@@ -13,14 +13,14 @@ authors = [{ name = "Afkanerd Developers", email = "developers@smswithoutborders
 dependencies = [
   "Authlib==1.6.12",
   "requests==2.33.0",
-  "relaysms-adapter-sdk @ git+https://github.com/smswithoutborders/RelaySMS-Publisher@sdk-v1.0.0#subdirectory=sdk",
+  "relaysms-adapter-sdk @ git+https://github.com/smswithoutborders/RelaySMS-Publisher@sdk-v1.1.0#subdirectory=sdk",
 ]
 
 [project.optional-dependencies]
 dev = [
   "pytest==9.1.1",
   "responses==0.26.3",
-  "relaysms-adapter-sdk[console] @ git+https://github.com/smswithoutborders/RelaySMS-Publisher@sdk-v1.0.0#subdirectory=sdk",
+  "relaysms-adapter-sdk[console] @ git+https://github.com/smswithoutborders/RelaySMS-Publisher@sdk-v1.1.0#subdirectory=sdk",
 ]
 
 [tool.hatch.metadata]
