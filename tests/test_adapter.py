@@ -3,6 +3,7 @@
 import base64
 import email
 import json
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 import pytest
@@ -18,13 +19,15 @@ from relaysms_adapter_sdk import (
     RateLimitedError,
     RevokeRequest,
     SendRequest,
+    SetupRequest,
     TokenInvalidError,
     UpstreamError,
+    manifest,
 )
 from relaysms_adapter_sdk.paths import CONFIG_DIR_ENV, STATE_DIR_ENV
 from relaysms_adapter_sdk.runner import handle
 
-from gmail_oauth2_adapter import GmailAdapter
+from gmail_oauth2_adapter import GmailAdapter, credentials
 from gmail_oauth2_adapter.adapter import (
     REVOKE_URI,
     SCOPE,
@@ -57,21 +60,24 @@ FRESH = {
 }
 
 
+SETTINGS = {
+    "client_id": "client",
+    "client_secret": "secret",
+    "redirect_uris": ["https://app/callback"],
+}
+GOOGLE_FILE = {"web": {**SETTINGS, "project_id": "relaysms"}}
+
+
 @pytest.fixture
-def adapter(tmp_path, monkeypatch):
-    (tmp_path / "credentials.json").write_text(
-        json.dumps(
-            {
-                "web": {
-                    "client_id": "client",
-                    "client_secret": "secret",
-                    "redirect_uris": ["https://app/callback"],
-                }
-            }
-        )
-    )
+def config(tmp_path, monkeypatch):
     monkeypatch.setenv(CONFIG_DIR_ENV, str(tmp_path))
     monkeypatch.setenv(STATE_DIR_ENV, str(tmp_path / "state"))
+    return tmp_path / "credentials.json"
+
+
+@pytest.fixture
+def adapter(config):
+    config.write_text(json.dumps(SETTINGS))
     return GmailAdapter()
 
 
@@ -262,3 +268,23 @@ def test_over_json_rpc(adapter, google):
     )
     response = json.loads(handle(adapter, line))
     assert response["result"]["token"]["access_token"] == "new-access"
+
+
+class TestSettings:
+    def test_setup_takes_the_settings_from_googles_file(self):
+        request = SetupRequest({"client_file": json.dumps(GOOGLE_FILE)})
+        assert GmailAdapter.setup(request).settings == SETTINGS
+
+    @pytest.mark.parametrize("text", ["not json", "[]", '{"other": {}}'])
+    def test_setup_refuses_other_files(self, text):
+        with pytest.raises(InvalidParamsError, match="Google OAuth client"):
+            GmailAdapter.setup(SetupRequest({"client_file": text}))
+
+    def test_googles_file_needs_setup_first(self, config):
+        config.write_text(json.dumps(GOOGLE_FILE))
+        with pytest.raises(ValueError, match="client_id"):
+            GmailAdapter()
+
+    def test_adapter_toml_declares_every_setting(self):
+        declared = manifest.load(Path(__file__).parents[1]).config
+        assert {field.name for field in declared} == set(credentials.KEYS)
