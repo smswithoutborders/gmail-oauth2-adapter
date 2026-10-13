@@ -23,6 +23,8 @@ from relaysms_adapter_sdk import (
     RevokeRequest,
     SendRequest,
     SendResult,
+    SetupRequest,
+    SetupResult,
     TokenInvalidError,
     UpstreamError,
 )
@@ -51,6 +53,11 @@ RATE_LIMIT_REASONS = {"rateLimitExceeded", "userRateLimitExceeded"}
 class GmailAdapter(OAuth2Adapter):
     def __init__(self) -> None:
         self.credentials = credentials.load()
+
+    @override
+    @classmethod
+    def setup(cls, request: SetupRequest) -> SetupResult:
+        return SetupResult(credentials.from_google_file(request.inputs["client_file"]))
 
     @override
     def create_authorization_url(

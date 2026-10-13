@@ -8,3 +8,22 @@ offline_first = false
 [icons]
 svg = "https://raw.githubusercontent.com/smswithoutborders/gmail-oauth2-adapter/main/icons/gmail.svg"
 png = "https://raw.githubusercontent.com/smswithoutborders/gmail-oauth2-adapter/main/icons/gmail.png"
+
+[config.client_id]
+required = true
+description = "OAuth client ID from Google Cloud Console."
+
+[config.client_secret]
+required = true
+secret = true
+description = "OAuth client secret from Google Cloud Console."
+
+[config.redirect_uris]
+type = "list"
+required = true
+description = "Redirect URIs registered for the client. The first is the default."
+
+[setup.client_file]
+type = "file"
+required = true
+description = "The client JSON downloaded from Google Cloud Console."
