@@ -203,7 +203,8 @@ def _upgrade_token(token: dict[str, Any]) -> dict[str, Any]:
         "refresh_token": token.get("refresh_token"),
         "token_type": "Bearer",
         "scope": " ".join(token.get("scopes", [])),
-        # Without an expiry, 0 makes Authlib refresh before using the token.
+        # A token stored without an expiry gets 0, so Authlib refreshes it before
+        # its first use.
         "expires_at": (
             int(datetime.fromisoformat(expiry.replace("Z", "+00:00")).timestamp())
             if expiry
