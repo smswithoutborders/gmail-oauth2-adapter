@@ -4,7 +4,7 @@ Lets [RelaySMS Publisher](https://github.com/smswithoutborders/RelaySMS-Publishe
 
 ## Settings
 
-Create an OAuth2 web client in the [Google Cloud Console](https://console.cloud.google.com/) with the Gmail API enabled, and download its JSON. Setup takes that file and saves the settings described in [adapter.toml](adapter.toml). On a Publisher, an administrator sets them with its [settings commands](https://github.com/smswithoutborders/RelaySMS-Publisher/blob/main/docs/platforms.md#settings) or REST API.
+Create an OAuth2 web client in the [Google Cloud Console](https://console.cloud.google.com/) with the Gmail API enabled, and download its JSON. Setup takes that file and saves the settings described in [adapter.toml](adapter.toml). On a Publisher, set them up as its [Gmail guide](https://github.com/smswithoutborders/RelaySMS-Publisher/blob/main/docs/platforms/gmail.md) describes.
 
 ## Develop
 
